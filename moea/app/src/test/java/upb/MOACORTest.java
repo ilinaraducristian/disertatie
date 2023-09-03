@@ -1,0 +1,4 @@
+package upb;
+
+class MOACORTest {
+}

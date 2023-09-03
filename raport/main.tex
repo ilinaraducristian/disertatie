@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+\usepackage[
+    backend=biber,
+    sorting=ynt
+]{biblatex}
+
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\section{Introducere}
+\subsection{Optimizarea multiobiectivă}
+\paragraph{}
+Optimizarea multiobiectivă are ca scop optimizarea problemelor matematice care au ca obiectiv mai multe funcții ce trebuie optimizate în același timp. Aceste optimizări sunt folosite unde nu există o soluție unică și îmbunătățirea unui parametru duce la degradarea celorlalți.
+\paragraph{}
+Frontul Pareto reprezintă un set optim de soluții care evidențiază cele mai bune relații de compromis între toate obiectivele. De obicei, între obiectivele problemelor cu mai multe obiective apar conflicte prin care îmbunătățirea unui obiectiv duce la degradarea altuia, deci toate obiectivele nu pot fi îndeplinite simultan. \cite{pareto}
+\paragraph{}
+O metodă euritică este o procedură ce determină soluții bune sau aproape optime pentru problemele de optimizare. Față de alte medote de aflare a soluțiilor optime pentro aceste probleme, metodele euristice nu garantează găsirea celei mai optime soluții. Aceste metode sunt folosite pentru problemele pentru care nu există metode de calcul pentru aflarea unei soluții exacte. În acest caz, metodele euristice reprezintă singura abordare pentru a găsi o soluție aproximativă. Chiar dacă metoda de găsire a unei soluții optime pentru o problemă există, aceasta poate fi foarte costisitoare din punct de vedere al timpului de calcul astfel, o metoda euristică poate fi folosită în loc care oferă o soluție mai puțin optimă, dar cu un timp de calcul mult mai mic. \cite{euritic}
+\paragraph{}
+O problemă de optimizare multiobiectivă poate fi reprezentată matematic astfel:
+\begin{equation}
+    \displaystyle \min_{x\in X} (f_1(x),f_2(x),\dots ,f_k(x))
+\end{equation}
+unde $k \geq 2$ reprezintă numărul de obiective și setul $X$ este compus din vectorii de decizie și este definit prin funcții de constrângeri.
+\subsection{Algoritmi de optimizare multiobiectivi}
+\subsubsection{NSGA-II}
+\paragraph{}
+Algoritmul genetic cu sortare nedominată (NSGA-II) atenuează trei dificultăți întâlnite la algoritmii care folosesc sortare nedominată: complexitatea de calcul O(M$N^3$), abordarea neelitistă și nevoia de a specifica un parametru comun. Acest algoritm reduce complexitatea de calcul a algoritmilor nedominați la O(M$N^2$). \cite{nsgaii}
+\subsubsection{NSGA-III}
+\paragraph{}
+Algoritmul genetic evolutiv cu mai multe obiective (NSGA-III) adapteaza algoritmul original (NSGA-II) rezolvarea problemelor cu mai multe obiective. Acesta folosește o evoluție bazată pe principiul punctelor de referință care scoate în evidență membrii nedominați și care să fie apropiați de punctele de referință oferite. \cite{nsgaiii}
+\subsubsection{GDE3}
+\paragraph{}
+Pentru optimizare globală a problemelor continue, evoluția diferențială (DE) s-a dovedit a fi unul dintre cei mai importanți algoritmi. Mutația este cel mai important operator al algoritmului și îi oefră capacitatea de a explora și de a exploata. Algoritmul de evoluție diferențială generalizată (GDE) se folosește de două compartimente de mutații care au atât strategii de explorare cât și de exploatare în ele pentru a îmbunătății performanța algoritmului DE. \cite{gde} O versiune avansată (GDE3) a algoritmului GDE a fost dezvoltată pentru optimizarea globală cu un număr arbitrar de obiective și constrângeri. Pentru probleme cu un singur obiectiv și fără constrângeri, se va folosi algoritmul original DE. În cazul problemelor cu mai multe obiective, acesta îmbunătățește performanța algoritmului GDE printr-o soluție distribuită mai bună. \cite{gde3}
+\subsubsection{PAES}
+\paragraph{}
+Strategia Pareto arhivată de evoluție
+\subsubsection{PESA2}
+\subsubsection{SPEA2}
+\subsubsection{IBEA}
+\subsubsection{SMPSO}
+\subsubsection{OMOPSO}
+\paragraph{}
+Algoritmul multiobiectiv de optimizare cu particle de tip roi (OMOPSO) oferă performanțe competitive față de cei mai performanți algoritmi precum NSGA-II, SPEA2 și poate aproxima frontul Pareto unde ceilalți algoritmi similari de tip PSO nu reușesc. Această performanță a fost obținută prin utilizarea dominanței Pareto, a factorului de aglomerare pentru filtrarea liderilor, a operatorilor de mutație și a dominanței epsilon pentru a avea un set fix de soluții finale produse de algoritm. \cite{omopso}
+\subsubsection{CMAES}
+\subsubsection{MOEAD}
+\subsection{Framework-ul MOEA}
+\paragraph{}
+Framework-ul MOEA este o bibliotecă Java gratuită și cu sursa deschisă pentru dezvoltarea si experimentarea algoritmilor de optimizare cu un singur sau mai multe obiective. Acest framework, poate lucra cu algoritmi genetici, evoluție diferențială, optimizare tip roi de particule, programare genetică, evoluție gramatică și altele. Acesta include un număr de algoritmi precum NSGA-II, NSGA-III, $\varepsilon$-MOEA, GDE3, PAES, PESA2, SPEA2, IBEA, SMS-EMOA, SMPSO, OMOPSO, CMA-ES și MOEA/D. De asemenea, acesta oferă uneltele necesare pentru a dezvolta rapid, executa și testa statistic algoritmii de optimizare.  \cite{moeawebsite}
+\subsection{Obiectivul si conținutul lucrării}
+\paragraph{}
+În această lucrare am propus un algoritm multiobiectiv de optimizare pornind de la un algoritm genetic dezvoltat pentru un singur obiectiv. Voi prezenta pe scurt framework-ul MOEA cu sursă deschisă folosit pentru dezvoltare, testarea și optimizarea algoritmului, cei mai performanți algoritmi genetici ce au contribuit la dezvoltarea și îmbunătățirea performanței acestui algoritm, variantele cu un singur obiectiv și variantele multiobiective dezvoltate. De asemenea, voi prezenta și o problemă pentru testarea algoritmului din domeniul ingineriei electrice unde voi compara performanțele acestui algoritm cu cele ale algoritmilor de top.
+\subsection{Dezvoltarea unui algoritm multiobiectiv}
+\paragraph{}
+Pornind de la un algoritm cu singur obiectiv de tip ACOR, vom dezvolta un algoritm multiobiectiv și performant ce concurează cu algoritmii evolutivi multiobiectivi de ultimă generație.
+\section{Algoritmi de implementare propusi}
+\subsection{NSGA-II și NSGA-III}
+\subsubsection{NSGA-II}
+\paragraph{}
+Principalele probleme ale algoritmului genetic de sortare nedominată (NSGA) sunt: complexitate de calcul ridicată pentru sortarea nedominată, lipsa elitismului care s-a dovedit foarte importantă în performanțele unui algoritm genetic și necesitatea unui parametru comun $\sigma_{share}$. \cite{nsgaii}
+\paragraph{}
+Algoritmul NSGA îmbunătățit (NSGA-II) propune soluții pentru probleme descrise și s-a dovedit a fi mai bun decât alți doi algoritmi similari PAES și SPEA.
+\paragraph{}
+Pentru a identifica soluțiile din primul front nedominat dintr-o populație N, fiecare soluție poate fi comparată cu fiecare soluție din populație pentru a afla dacă este dominată. Pentru asta avem nevoie de O(MN) comarații pentru fiecare soluție, unde M este numărul de obiective. \cite{nsgaii}
+\subsubsection{NSGA-III}
+\paragraph{}
+În cele mai multe cazuri, problemele de optimizare multiobiective sunt definite ca avand cel puțin 4 obiective, iar cele cu mai puțin de 4 obiective sunt tratate ca facând parte din altă clasă de algoritmi deoarece frontul Pareto generat poate fi vizualizat cu ușurință. De asemenea, numărul de obiective maxim des întâlnit este curpins intre 10 si 15. Dificutățile întâmpinate de algoritmii evolutivi multiobiectivi ce folosesc principiul de dominare sunt: o proporție mare din populație își pierde dominanța, complexitatea de calcul crește semnificativ cu numărul de obiective, recombinarea ineficientă a soluțiilor, colectarea de metrice crește costul complexității de calcul și datorită necesității unei populații mai mari, vizualizarea este mult mai greoaie. \cite{nsgaiii}
+\paragraph{}
+Algoritmul propus (NSGA-III) diferă de algoritmul original (NSGA-II) prin modificări semnificative ale operatorului de selecție și menținerea diversității populației este ajutată prin aplicarea adaptivă a unui număr de puncte de referință. \cite{nsgaiii}
+\subsection{Algoritmi de tip ACOR}
+Algoritmul euristic de optimizare pe baza coloniei de furnici funcționează după o paradigmă numită sistem de furnici este propus ca o nouă abordare pentru optimizarea combinatorică stocastică. Principalele caracteristici ale acestui model sunt: raspunsul pozitiv contribuie la descoperirea rapidă a soluțiilor bune, calculul distribuit evită o convergență prematură și folosirea unui euristic constructiv lacom ajută la găsirea unor soluții acceptabile la începutul procesului de căutare.\cite{aco}
+\subsubsection{SOACOR}
+\subsubsection{MOACOR}
+\section{Implementare}
+\paragraph{}
+Implementarea algoritmului a fost facută cu ajutorul framework-ului MOEA. Acesta pune la dispoziția utilizatorului o multitudine de unelte pentru a dezvolta, masura și compara algoritmi multiobiectivi cu ajutorul limbajului de programare Java. De asemenea, conține și un număr mare de implementări ale celor mai populari algorimti și probleme multiobiective.
+\paragraph{}
+Framework-ul MOEA pune la dispoziție o interfață generică numită Algorithm pentru a defini propietățile comune tuturor algoritmilor și anume: problema pe care algoritmul o optimizează, populația curentă ce conține cele mai bune soluții la momentul invocarii acesteia, o metodă pentru a efectua un pas logic al algoritmului, o metodă pentru evaluarea unei soluții, numărul de evaluări efectuate și o metodă de a rula algoritmul cu o condiție de finalizare, care poate fi activată pe baza unor criterii sau a numărului de evaluări.
+\paragraph{}
+Pentru a ușura dezvoltarea unui nou algoritm, clasa AbstractAlgorithm oferă o implementare comună pentru majoritatea algoritmilor, astfel pentru dezvoltarea unui noi algoritm este suficientă  implementarea metodelor ce precizează cum se face o iterație a algoritmului și cea pentru obținerea arhivei epsilon ce provine din extinderea clasei EpsilonBoxEvolutionaryAlgorithm.
+\paragraph{}
+Acest framework permite configurarea unui algoritm prin utilizarea claselor Properties și TypeProperties. Acestea permit pasarea de parametrii către un algoritm sau o problemă și în absența precizării acestora se pot folosi valori predefinite.
+\subsection{Prima versiune}
+Algoritmul multiobiectiv definește următorii parametrii cu valori predefinite:
+\begin{itemize}
+    \item localitateaProcesuluiDeCautare 0.1
+    \item vitezaDeConvergenta 0.85
+    \item numarFurnici 100
+    \item selectieTournamet false
+\end{itemize}
+O iterație a algoritmului presupune obținerea populației actuale, a arhivei epsilon și a problemei de optimizat, construcția urmașilor, evaluarea soluțiilor, adăugarea urmașilor la arhiva epsilon și în populația curentă ce urmează să fie trunchiată până la numărul de soluții dorite.
+Construcția urmașilor se face treptat până se ajunge la numărul de furnici precizat ca parametru. În formarea unui urmaș se alege un individ din populație pe baza parametrului selectieTournament care va aplica selecția TournamentSelection oferită de framework și adaptată la algoritm, sau o selecție aleatoare bazată pe un vector de probabilități numit probabilitatiCumulateDeSelectie.
+\section{Funcții benchmark}
+\paragraph{}
+Congresul IEEE al calculului evolutiv este unul dintre cele mai mari și importante conferințe din cadrul calculului evolutiv.
+\subsection{Funcții C.E.C.}
+\paragraph{}
+Pentru a compara performanțele algoritmilor, în cadrul conferințelor C.E.C. au fost prezentate probleme benchmark precum: DTLZ1, DTLZ2, DTLZ3, DTLZ4, Fonseca, Kursawe și Schaffer2.
+\subsection{LoenyMO}
+\section{Rezultate}
+\subsection{Din funcțiile C.E.C.}
+\subsection{Din LoneyMO}
+\section{Concluzii}
+\newpage
+\printbibliography
+\end{document}
