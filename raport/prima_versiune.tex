@@ -1,0 +1,38 @@
+\subsection{Prima versiune}
+\paragraph{}
+Algoritmul multiobiectiv definește următorii parametrii cu valori predefinite:
+\begin{itemize}
+    \item localitateaProcesuluiDeCautare 0.1
+    \item vitezaDeConvergenta 0.85
+    \item numarFurnici 100
+    \item selectieTournamet false
+\end{itemize}
+\paragraph{}
+O iterație a algoritmului presupune calcularea ponderilor și a probabilităților de selecție, construcția și evaluarea soluțiilor, calcularea furnicii dominante și reducerea populației la numărul de furnici definit la creare algoritmului prin metoda de sortare nedominată.
+\paragraph{}
+Un element din vectorulu de ponderi ce are numărul de elemente egal cu mărimea populației, este definit astfel:
+\begin{equation}
+    \epsilon^{\frac{-1*i^2}{2*constanta^2*marimea\ populatiei^2}}*\frac{1}{constanta}
+\end{equation}
+unde:
+\begin{itemize}
+    \item $constanta = localitatea\ procesului\ de\ cautare * marimea\ populatiei * \sqrt{2\pi}$
+\end{itemize}
+\paragraph{}
+Probabilitățile de selcție reprezintă un vector format din ponderile calculate antecedent unde fiecare element este împărțit la suma ponderilor.
+Construcția souțiilor se face în funcție de parametrul algorimului "selectieTournamet". În funcție de acesta, se va obține un indice ce va fi folosit în calcularea deviațiilor standard și pentru a construi o nouă soluție. Deviațiile standard se obțin cu ajutorul următoarei formule:
+\begin{equation}
+    deviatie\ standard_i = \frac {viteza\ de\ convergenta * (\sum_{i=0}^{n} variabila\ solutiei_i - variabila\ solutiei_indice)} {marimea\ populatiei - 1}
+\end{equation}
+unde:
+\begin{itemize}
+    \item n = mărimea populației
+    \item indice = obținut prin selecție tournament sau prin extragerea unui număr aleator din vectorul probabilităților cumulate de selcție
+\end{itemize}
+\paragraph{}
+Construcția unei noi soluții se face prin alegerea unui individ din populație cu ajutorul indicelui calculat antecedent și ajustarea variabilelor acestuia cu vectorul deviațiilor standard.
+\paragraph{}
+O încercare de a îmbunătății acestă versiune a fost obținută prin modificarea formulei de calcul a ponderilor utilizate în deviațiile standard:
+\begin{equation}
+    \epsilon^{\frac{-1*i^2}{2*localitatea\ procesului\ de\ cautare^2*marimea\ populatiei^2}}*\frac{1}{constanta}
+\end{equation}

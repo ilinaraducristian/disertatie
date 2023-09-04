@@ -1,0 +1,64 @@
+\subsection{A doua versiune}
+\paragraph{}
+În abordarea inițială a implementării algorimului cu ajutorul framework-ului MOEA, s-a folosit clasa de baza "AbstractEvolutionaryAlgorithm". Pentru a îmbunătății performanțele algorimului, această clasa a fost înlocuită cu "OMOPSO" pentru a beneficia de caracteristicile acestui algorim în special funcția de mutație ce aparține algorimilor PSO. Clasa "OMOPSO" și algorimul nostru se folosesc de această metodă deoarece extind la randul lor clasa "AbstractPSOAlgorithm".
+\paragraph{}
+O iterație a acestui algoritm presupune construcția de soluții noi, aplicarea operatorului de mutație, evaluarea particulelor, actualizarea celor mai bune soluții locale, adăugarea particulelor la lideri și evaluarea acestora.
+\paragraph{}
+Construcția soluțiilor se face cu ajutorul deviațiilor standard calculate pentru fiecare variabilă a fiecărei particule în funcție de parametrul algoritmului "tipulCalcululuiDeviatiilor":
+\paragraph{V1}
+\begin{equation}
+    deviatiiStandard = \frac{vitezaDeConvergenta * (\sum_{i=0}^{n} lbp_i - particula_j)}{marimeaPopulatiei - 1}
+\end{equation}
+unde:
+\begin{itemize}
+    \item n: marimeaPopulatiei
+    \item lbp: cea mai bună particulă locală
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{V2}
+\begin{equation}
+    deviatiiStandard = vitezaDeConvergenta * (particula_j - lider)
+\end{equation}
+\begin{itemize}
+    \item lider: ales aleator din populația de lideri
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{V3}
+\begin{equation}
+    deviatiiStandard = \frac{vitezaDeConvergenta * (\sum_{i=0}^{numarulDeLideri}particula_j - lider_i)}{numarulDeLideri}
+\end{equation}
+\begin{itemize}
+    \item lider: ales aleator din populația de lideri
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{V4}
+\begin{equation}
+    deviatiiStandard = \frac{vitezaDeConvergenta * (\sum_{i=0}^{marimeaPopulatiei}lbp_i - lbp_j)}{marimeaPopulatiei - 1}
+\end{equation}
+\begin{itemize}
+    \item lider: ales aleator din populația de lideri
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{V5}
+\begin{equation}
+    deviatiiStandard = \frac{vitezaDeConvergenta * (\sum_{i=0}^{marimeaPopulatiei}lbp_j - lbp_i)}{marimeaPopulatiei - 1}
+\end{equation}
+\begin{itemize}
+    \item lider: ales aleator din populația de lideri
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{V6}
+\begin{equation}
+    deviatiiStandard = \frac{vitezaDeConvergenta * (\sum_{i=0}^{numarulDeLideri}lbp_j - lider_i)}{numarulDeLideri}
+\end{equation}
+\begin{itemize}
+    \item lider: ales aleator din populația de lideri
+    \item j: poziția curentă pentru care se calculează deviațiile
+\end{itemize}
+\paragraph{}
+La fiecare particulă se va aduna un număr aleator înmulțit cu deviația standard calculată pe aceeași poziție și valoarea unei soluții inițiale care va fi un individ din populația curentă, cea mai bună particulă locală sau un lider aleator în funcție de valoarea parametrului "tipulCalcululuiDeviatiilor".
+\paragraph{}
+Operatorul de mutație aplicat noilor soluții, va adăuga la fiecare variabilă diferența dintre valoarea maximă sau minimă în funcție de o variabilă aleatoare și valoarea curentă a acesteia.
+\paragraph{}
+Actualizarea celor mai bune soluții locale se face cu ajutorul funcției "updateLocalBest" ce provine din clasa moșstenită "AbstractPSOAlgorithm". Acesta compară vectorul de particule cu vectorul de lideri locali și un individ din populație îi va lua locul unui lider doar dacă comparatorul de dominanță pe baza obiectivelor Pareto va alege individul din populație.
+Ultimul pas al iterației este marcat de adăugarea populației curente la vectorul global de lideri.

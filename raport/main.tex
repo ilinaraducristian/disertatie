@@ -52,24 +52,7 @@ Framework-ul MOEA este o bibliotecă Java gratuită și cu sursa deschisă pentr
 \subsection{Dezvoltarea unui algoritm multiobiectiv}
 \paragraph{}
 Pornind de la un algoritm cu singur obiectiv de tip ACOR, vom dezvolta un algoritm multiobiectiv și performant ce concurează cu algoritmii evolutivi multiobiectivi de ultimă generație.
-\section{Algoritmi de implementare propusi}
-\subsection{NSGA-II și NSGA-III}
-\subsubsection{NSGA-II}
-\paragraph{}
-Principalele probleme ale algoritmului genetic de sortare nedominată (NSGA) sunt: complexitate de calcul ridicată pentru sortarea nedominată, lipsa elitismului care s-a dovedit foarte importantă în performanțele unui algoritm genetic și necesitatea unui parametru comun $\sigma_{share}$. \cite{nsgaii}
-\paragraph{}
-Algoritmul NSGA îmbunătățit (NSGA-II) propune soluții pentru probleme descrise și s-a dovedit a fi mai bun decât alți doi algoritmi similari PAES și SPEA.
-\paragraph{}
-Pentru a identifica soluțiile din primul front nedominat dintr-o populație N, fiecare soluție poate fi comparată cu fiecare soluție din populație pentru a afla dacă este dominată. Pentru asta avem nevoie de O(MN) comarații pentru fiecare soluție, unde M este numărul de obiective. \cite{nsgaii}
-\subsubsection{NSGA-III}
-\paragraph{}
-În cele mai multe cazuri, problemele de optimizare multiobiective sunt definite ca avand cel puțin 4 obiective, iar cele cu mai puțin de 4 obiective sunt tratate ca facând parte din altă clasă de algoritmi deoarece frontul Pareto generat poate fi vizualizat cu ușurință. De asemenea, numărul de obiective maxim des întâlnit este curpins intre 10 si 15. Dificutățile întâmpinate de algoritmii evolutivi multiobiectivi ce folosesc principiul de dominare sunt: o proporție mare din populație își pierde dominanța, complexitatea de calcul crește semnificativ cu numărul de obiective, recombinarea ineficientă a soluțiilor, colectarea de metrice crește costul complexității de calcul și datorită necesității unei populații mai mari, vizualizarea este mult mai greoaie. \cite{nsgaiii}
-\paragraph{}
-Algoritmul propus (NSGA-III) diferă de algoritmul original (NSGA-II) prin modificări semnificative ale operatorului de selecție și menținerea diversității populației este ajutată prin aplicarea adaptivă a unui număr de puncte de referință. \cite{nsgaiii}
-\subsection{Algoritmi de tip ACOR}
-Algoritmul euristic de optimizare pe baza coloniei de furnici funcționează după o paradigmă numită sistem de furnici este propus ca o nouă abordare pentru optimizarea combinatorică stocastică. Principalele caracteristici ale acestui model sunt: raspunsul pozitiv contribuie la descoperirea rapidă a soluțiilor bune, calculul distribuit evită o convergență prematură și folosirea unui euristic constructiv lacom ajută la găsirea unor soluții acceptabile la începutul procesului de căutare.\cite{aco}
-\subsubsection{SOACOR}
-\subsubsection{MOACOR}
+\input{algoritmi_propusi.tex}
 \section{Implementare}
 \paragraph{}
 Implementarea algoritmului a fost facută cu ajutorul framework-ului MOEA. Acesta pune la dispoziția utilizatorului o multitudine de unelte pentru a dezvolta, masura și compara algoritmi multiobiectivi cu ajutorul limbajului de programare Java. De asemenea, conține și un număr mare de implementări ale celor mai populari algorimti și probleme multiobiective.
@@ -79,16 +62,8 @@ Framework-ul MOEA pune la dispoziție o interfață generică numită Algorithm 
 Pentru a ușura dezvoltarea unui nou algoritm, clasa AbstractAlgorithm oferă o implementare comună pentru majoritatea algoritmilor, astfel pentru dezvoltarea unui noi algoritm este suficientă  implementarea metodelor ce precizează cum se face o iterație a algoritmului și cea pentru obținerea arhivei epsilon ce provine din extinderea clasei EpsilonBoxEvolutionaryAlgorithm.
 \paragraph{}
 Acest framework permite configurarea unui algoritm prin utilizarea claselor Properties și TypeProperties. Acestea permit pasarea de parametrii către un algoritm sau o problemă și în absența precizării acestora se pot folosi valori predefinite.
-\subsection{Prima versiune}
-Algoritmul multiobiectiv definește următorii parametrii cu valori predefinite:
-\begin{itemize}
-    \item localitateaProcesuluiDeCautare 0.1
-    \item vitezaDeConvergenta 0.85
-    \item numarFurnici 100
-    \item selectieTournamet false
-\end{itemize}
-O iterație a algoritmului presupune obținerea populației actuale, a arhivei epsilon și a problemei de optimizat, construcția urmașilor, evaluarea soluțiilor, adăugarea urmașilor la arhiva epsilon și în populația curentă ce urmează să fie trunchiată până la numărul de soluții dorite.
-Construcția urmașilor se face treptat până se ajunge la numărul de furnici precizat ca parametru. În formarea unui urmaș se alege un individ din populație pe baza parametrului selectieTournament care va aplica selecția TournamentSelection oferită de framework și adaptată la algoritm, sau o selecție aleatoare bazată pe un vector de probabilități numit probabilitatiCumulateDeSelectie.
+\input{prima_versiune.tex}
+\input{a_doua_versiune.tex}
 \section{Funcții benchmark}
 \paragraph{}
 Congresul IEEE al calculului evolutiv este unul dintre cele mai mari și importante conferințe din cadrul calculului evolutiv.
