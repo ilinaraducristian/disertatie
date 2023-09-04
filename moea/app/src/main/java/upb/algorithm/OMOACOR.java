@@ -15,7 +15,7 @@ public class OMOACOR extends OMOPSO {
     private static final Random rand = new Random();
     private int numberOfVariables;
     private int numarFurnici;
-    private DEVIATIONS_CALCULATION_METHOD tipulCalcululuiDeviatiilor;
+    private final DEVIATIONS_CALCULATION_METHOD tipulCalcululuiDeviatiilor;
     private double vitezaDeConvergenta;
     private double[] deviatiileStandard;
     private int swarmSize;
@@ -31,7 +31,7 @@ public class OMOACOR extends OMOPSO {
                 properties.getInt("maxIterations", 10000 / 100),
                 properties.getDouble("convergeanceSpeed", 0.01),
                 properties.getInt("numarFurnici", 100),
-                DEVIATIONS_CALCULATION_METHOD.values()[properties.getInt("deviationsCalculationMethod", 7) + 1]
+                DEVIATIONS_CALCULATION_METHOD.values()[properties.getInt("deviationsCalculationMethod", 7) - 1]
         );
     }
 
@@ -159,7 +159,6 @@ public class OMOACOR extends OMOPSO {
                                 - ((RealVariable) leaders.get(e).getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma / leaders.size();
                 }
-                default -> throw new Exception("invalid tipulCalcululuiDeviatiilor");
             }
         }
     }
