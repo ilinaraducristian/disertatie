@@ -20,7 +20,7 @@ public class MOACORSM extends AbstractEvolutionaryAlgorithm implements EpsilonBo
 
     private final TypedProperties properties = new TypedProperties();
 
-    public MOACORSM(Problem problem) {
+    public MOACORSM(Problem problem, TypedProperties typedProperties) {
         super(
                 problem,
                 100,
@@ -198,15 +198,7 @@ public class MOACORSM extends AbstractEvolutionaryAlgorithm implements EpsilonBo
             private final int size;
 
             public MOACORTournamentSelection() {
-                super(2, new ChainedComparator(
-                        new AggregateConstraintComparator(),
-                        new DominanceComparator() {
-
-                            @Override
-                            public int compare(Solution solution1, Solution solution2) {
-                                return PRNG.nextBoolean() ? -1 : 1;
-                            }
-                        }));
+                super(2, new ChainedComparator(new AggregateConstraintComparator(), (solution1, solution2) -> PRNG.nextBoolean() ? -1 : 1));
                 this.size = 2;
             }
 

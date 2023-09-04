@@ -17,17 +17,11 @@ public class ACORProvider extends AlgorithmProvider {
         classes.put("1", MoAcoR.class);
         classes.put("2", MOACORSM.class);
         classes.put("3", OMOACOROLD.class);
-        classes.put("4", OMOACORV1.class);
-        classes.put("5", OMOACORV2.class);
-        classes.put("6", OMOACORV3.class);
-        classes.put("7", OMOACOR.class);
+        classes.put("4", OMOACOR.class);
 
         classes.put("MoAcoR", MoAcoR.class);
         classes.put("MOACORSM", MOACORSM.class);
         classes.put("OMOACOROLD", OMOACOROLD.class);
-        classes.put("OMOACORV1", OMOACORV1.class);
-        classes.put("OMOACORV2", OMOACORV2.class);
-        classes.put("OMOACORV3", OMOACORV3.class);
         classes.put("OMOACOR", OMOACOR.class);
     }
 
@@ -35,15 +29,15 @@ public class ACORProvider extends AlgorithmProvider {
     public Algorithm getAlgorithm(String name, TypedProperties typedProperties, Problem problem) {
         if (!name.toUpperCase().contains("ACOR")) return null;
         String version = typedProperties.getString("version", "");
-        return instantiateAlgorithm(version, problem).orElse(instantiateAlgorithm(name, problem).orElse(null));
+        return instantiateAlgorithm(version, problem, typedProperties).orElse(instantiateAlgorithm(name, problem, typedProperties).orElse(null));
     }
 
-    private Optional<Algorithm> instantiateAlgorithm(String key, Problem problem) {
+    private Optional<Algorithm> instantiateAlgorithm(String key, Problem problem, TypedProperties properties) {
         if (!classes.containsKey(key)) {
             return Optional.empty();
         }
         try {
-            return Optional.of((Algorithm) classes.get(key).getDeclaredConstructor(Problem.class).newInstance(problem));
+            return Optional.of((Algorithm) classes.get(key).getDeclaredConstructor(Problem.class, TypedProperties.class).newInstance(problem, properties));
         } catch (Exception e) {
             return Optional.empty();
         }

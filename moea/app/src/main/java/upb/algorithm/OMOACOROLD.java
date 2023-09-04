@@ -5,6 +5,7 @@ import org.moeaframework.analysis.sensitivity.EpsilonHelper;
 import org.moeaframework.core.Problem;
 import org.moeaframework.core.Solution;
 import org.moeaframework.core.variable.RealVariable;
+import org.moeaframework.util.TypedProperties;
 
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class OMOACOROLD extends OMOPSO {
     float vitezaDeConvergenta;
     double[] deviatiileStandard;
 
-    public OMOACOROLD(Problem problem) {
+    public OMOACOROLD(Problem problem, TypedProperties typedProperties) {
         this(
                 problem,
                 100,
@@ -94,8 +95,7 @@ public class OMOACOROLD extends OMOPSO {
 //      deviatiileStandard[i] = vitezaDeConvergenta * suma / (swarmSize - 1);
             // varianta 2
             Solution leader = leaders.get(rand.nextInt());
-            suma = Math.abs(((RealVariable) particles[index].getVariable(i)).getValue()
-                    - ((RealVariable) leader.getVariable(i)).getValue());
+            suma = Math.abs(((RealVariable) particles[index].getVariable(i)).getValue() - ((RealVariable) leader.getVariable(i)).getValue());
             deviatiileStandard[i] = vitezaDeConvergenta * suma;
 
             // varianta 3

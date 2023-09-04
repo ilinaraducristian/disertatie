@@ -20,7 +20,7 @@ public class MoAcoR extends AbstractEvolutionaryAlgorithm implements EpsilonBoxE
 
     private final TypedProperties properties = new TypedProperties();
 
-    public MoAcoR(Problem problem) {
+    public MoAcoR(Problem problem, TypedProperties typedProperties) {
         super(
                 problem,
                 100,

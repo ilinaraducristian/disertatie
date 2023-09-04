@@ -5,43 +5,57 @@ import org.moeaframework.analysis.sensitivity.EpsilonHelper;
 import org.moeaframework.core.Problem;
 import org.moeaframework.core.Solution;
 import org.moeaframework.core.variable.RealVariable;
+import org.moeaframework.util.TypedProperties;
 
 import java.util.Random;
 
-// version 7
+// version 4
 public class OMOACOR extends OMOPSO {
 
     private static final Random rand = new Random();
-    int numberOfVariables;
-    int numarFurnici;
-    int tipulCalcululuiDeviatiilor;
-    double vitezaDeConvergenta;
-    double[] deviatiileStandard;
+    private int numberOfVariables;
+    private int numarFurnici;
+    private DEVIATIONS_CALCULATION_METHOD tipulCalcululuiDeviatiilor;
+    private double vitezaDeConvergenta;
+    private double[] deviatiileStandard;
+    private int swarmSize;
 
-    int swarmSize;
-
-    public OMOACOR(Problem problem) {
-        this(problem, 100, 100,
-                new double[]{EpsilonHelper.getEpsilon(problem)}, 1.0 / problem.getNumberOfObjectives(), 0.01, 10000 / 100,
-                0.01f, 100, 7);
+    public OMOACOR(Problem problem, TypedProperties properties) {
+        this(
+                problem,
+                properties.getInt("swarmSize", 100),
+                properties.getInt("leaderSize", 100),
+                new double[]{EpsilonHelper.getEpsilon(problem)},
+                properties.getDouble("mutationProbability", 1.0 / problem.getNumberOfObjectives()),
+                properties.getDouble("mutationPerturbation", 0.01),
+                properties.getInt("maxIterations", 10000 / 100),
+                properties.getDouble("convergeanceSpeed", 0.01),
+                properties.getInt("numarFurnici", 100),
+                DEVIATIONS_CALCULATION_METHOD.values()[properties.getInt("deviationsCalculationMethod", 7) + 1]
+        );
     }
 
-    public OMOACOR(Problem problem, double[] epsilon, double mutationProbability, double mutationPerturbation, double convergenceSpeed) {
-        this(problem, 100, 100, epsilon, mutationProbability, mutationPerturbation, 10000 / 100,
-                convergenceSpeed, 100, 7);
-    }
-
-    public OMOACOR(Problem problem,
-                   int swarmSize,
-                   int leaderSize,
-                   double[] epsilons,
-                   double mutationProbability,
-                   double mutationPerturbation,
-                   int maxIterations,
-                   double vitezaDeConvergenta,
-                   int numarFurnici,
-                   int tipulCalcululuiDeviatiilor) {
-        super(problem, swarmSize, leaderSize, epsilons, mutationProbability, mutationPerturbation, maxIterations);
+    public OMOACOR(
+            Problem problem,
+            int swarmSize,
+            int leaderSize,
+            double[] epsilons,
+            double mutationProbability,
+            double mutationPerturbation,
+            int maxIterations,
+            double vitezaDeConvergenta,
+            int numarFurnici,
+            DEVIATIONS_CALCULATION_METHOD tipulCalcululuiDeviatiilor
+    ) {
+        super(
+                problem,
+                swarmSize,
+                leaderSize,
+                epsilons,
+                mutationProbability,
+                mutationPerturbation,
+                maxIterations
+        );
         numberOfVariables = problem.getNumberOfVariables();
         this.vitezaDeConvergenta = vitezaDeConvergenta;
         deviatiileStandard = new double[swarmSize];
@@ -82,8 +96,8 @@ public class OMOACOR extends OMOPSO {
 
     private Solution construiesteSolutieNoua(int indexArhiva4Constructie) {
         Solution solutieDeStart = switch (tipulCalcululuiDeviatiilor) {
-            case 1, 2, 3 -> particles[indexArhiva4Constructie];
-            case 4, 5, 6 -> localBestParticles[indexArhiva4Constructie];
+            case V1, V2, V3 -> particles[indexArhiva4Constructie];
+            case V4, V5, V6 -> localBestParticles[indexArhiva4Constructie];
             default -> leaders.get(rand.nextInt(leaders.size()));
         };
         Solution solutie = new Solution(solutieDeStart.getNumberOfVariables(), solutieDeStart.getNumberOfObjectives(), solutieDeStart.getNumberOfConstraints());
@@ -105,51 +119,53 @@ public class OMOACOR extends OMOPSO {
 
     private void calculeazaDeviatiileStandard(int index) throws Exception {
         double suma;
-        Solution leader = null;
+        Solution leader;
         for (int i = 0; i < numberOfVariables; i++) {
             suma = 0;
             switch (tipulCalcululuiDeviatiilor) {
-                case 1:
+                case V1 -> {
                     for (int e = 0; e < swarmSize; e++)
                         suma = suma + Math.abs(((RealVariable) localBestParticles[e].getVariable(i)).getValue()
                                 - ((RealVariable) particles[index].getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma / (swarmSize - 1);
-                    break;
-                case 2:
+                }
+                case V2 -> {
                     leader = leaders.get(rand.nextInt(leaders.size()));
                     suma = Math.abs(((RealVariable) particles[index].getVariable(i)).getValue()
                             - ((RealVariable) leader.getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma;
-                    break;
-                case 3:
+                }
+                case V3 -> {
                     for (int e = 0; e < leaders.size(); e++)
                         suma = suma + Math.abs(((RealVariable) particles[index].getVariable(i)).getValue()
                                 - ((RealVariable) leaders.get(e).getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma / leaders.size();
-                    break;
-                case 4:
+                }
+                case V4 -> {
                     for (int e = 0; e < swarmSize; e++)
                         suma = suma + Math.abs(((RealVariable) localBestParticles[e].getVariable(i)).getValue()
                                 - ((RealVariable) localBestParticles[index].getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma / (swarmSize - 1);
-                    break;
-                case 5:
+                }
+                case V5 -> {
                     leader = leaders.get(rand.nextInt(leaders.size()));
                     suma = Math.abs(((RealVariable) localBestParticles[index].getVariable(i)).getValue()
                             - ((RealVariable) leader.getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma;
-                    break;
-                case 6:
-                case 7:
+                }
+                case V6, V7 -> {
                     for (int e = 0; e < leaders.size(); e++)
                         suma = suma + Math.abs(((RealVariable) localBestParticles[index].getVariable(i)).getValue()
                                 - ((RealVariable) leaders.get(e).getVariable(i)).getValue());
                     deviatiileStandard[i] = vitezaDeConvergenta * suma / leaders.size();
-                    break;
-                default:
-                    throw new Exception("tipulCalcululuiDeviatiilor cannot be 0");
+                }
+                default -> throw new Exception("invalid tipulCalcululuiDeviatiilor");
             }
         }
+    }
+
+    public enum DEVIATIONS_CALCULATION_METHOD {
+        V1, V2, V3, V4, V5, V6, V7
     }
 
 }
